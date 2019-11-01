@@ -23,9 +23,13 @@ def top3_articles():
     most viewed articles are returned.
     """
 
-    cur.execute("select title, count(*) as article_title from "
-                "article_summary group by title order "
-                "by article_title desc limit 3;")
+    cur.execute("""
+        SELECT title, COUNT(*) AS article_title
+        FROM article_summary
+        GROUP BY title
+        ORDER BY article_title DESC
+        LIMIT 3;
+    """)
     result = cur.fetchall()
     return result
 
@@ -40,9 +44,12 @@ def top_authors():
         - the total number of sessions all of their articles attracted
     """
 
-    cur.execute("select author, count(*) as article_author from "
-                "article_summary group by author order "
-                "by article_author desc;")
+    cur.execute("""
+        SELECT author, count(*) AS article_author
+        FROM article_summary
+        GROUP BY author
+        ORDER BY article_author DESC;
+    """)
     result = cur.fetchall()
     return result
 
@@ -57,7 +64,7 @@ def high_errors():
         - the percetange of requests that were not a 200 OK response
     """
 
-    cur.execute("select newdate, percentage from stats where percentage > 1;")
+    cur.execute("SELECT newdate, percentage FROM stats WHERE percentage > 1;")
     result = cur.fetchall()
     return result
 
