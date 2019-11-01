@@ -11,8 +11,17 @@ cur = conn.cursor()
 # create a function that gets the top 3 articles
 
 def top3_articles():
+    """
+    Return the top three most viewed articles with their view counts.
 
-    # Query the database and obtain data as Python objects
+    Returns:
+    A list of two element tuples. Each tuple contains:
+      - the title of the article.
+      - the number of views for the article
+
+    The list is sorted by number of views in descending order. Only the three
+    most viewed articles are returned.
+    """
 
     cur.execute("select title, count(*) as article_title from "
                 "article_summary group by title order "
@@ -21,11 +30,16 @@ def top3_articles():
     return result
 
 
-# create a function that gets the top authors
-
 def top_authors():
+    """
+    Returns a list of the top authors by article pageviews.
 
-    # Query the database and obtain data as Python objects
+    Returns:
+    A list of two element tuplies. Each containins:
+        - the author name
+        - the total number of sessions all of their articles attracted
+    """
+
     cur.execute("select author, count(*) as article_author from "
                 "article_summary group by author order "
                 "by article_author desc;")
@@ -33,11 +47,16 @@ def top_authors():
     return result
 
 
-# create a function that finds days with a high number of errors
-
 def high_errors():
+    """
+    Returns a list of dates and the percentage of requests
+    that were errors that day
 
-    # Query the database and obtain data as Python objects
+    Returns a list of two element tuples. Each contains:
+        - the date
+        - the percetange of requests that were not a 200 OK response
+    """
+
     cur.execute("select newdate, percentage from stats where percentage > 1;")
     result = cur.fetchall()
     return result
